@@ -9,4 +9,4 @@ segundos = segundos - (horas * (60*60))
 minutos = segundos // 60
 segundos = segundos - (minutos * 60)
 
-print("%d:%.2d:%2d:%2d" % (dias, horas, minutos, segundos))
+print("%d:%.2d:%.2d:%.2d" % (dias, horas, minutos, segundos))
