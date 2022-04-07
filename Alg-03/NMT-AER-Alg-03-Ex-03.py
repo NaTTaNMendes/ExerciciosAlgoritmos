@@ -1,6 +1,3 @@
-from re import A
-
-
 letra = input("Informe uma letra: ")
 letra = letra.upper()
 
