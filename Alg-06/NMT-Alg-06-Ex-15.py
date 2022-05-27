@@ -1,3 +1,6 @@
+from cmath import exp
+
+
 def tokenizar(expressao):
     """
     Divide os elementos da expressão em tokens e retorna uma lista com todos eles (A função não consegue detectar números negativos).
@@ -7,31 +10,36 @@ def tokenizar(expressao):
     """
     tokens = []
     expressao = expressao.replace(" ", "")
-    operadores = ["+", "-", "*", "/", "^"]
+    operadoresBinarios = ["+", "-", "*", "/", "^", ")", "("]
+    operadoresUnarios = ["+", "-"]
+    pos = 0
 
     while True:
-        if (expressao[0] == "("):
-            for simbolo in expressao:
-                if (simbolo == ")"):
-                    try:
-                        tokens.append(expressao[0 : expressao.index(")") + 1])
-                        expressao = expressao[expressao.index(")") + 1 ::]
-                        break
-                    except:
-                        tokens.append(expressao[0 ::])
-                        expressao = ""
-                        break
-            if (expressao == ""):
-                break
+        if (expressao[0] in operadoresUnarios):
+            if (len(tokens) == 0):
+                for i in range(1, len(expressao)):
+                    if (expressao[i] in operadoresBinarios) or (expressao[i] == "(") or (expressao[i] == ")"):
+                        tokens.append(expressao[0 : i])
+                        expressao = expressao[i ::]
+                        break 
+            elif (("-" in tokens[pos - 1]) and (len(tokens[pos - 1]) == 1)) or (("+" in tokens[pos - 1]) and (len(tokens[pos - 1]) == 1)) or (")" in tokens[pos - 1]):
+                tokens.append(expressao[0])
+                expressao = expressao[1 ::]
+            else:
+                for i in range(1, len(expressao)):
+                    if (expressao[i] in operadoresBinarios) or (expressao[i] == "(") or (expressao[i] == ")"):
+                        tokens.append(expressao[0 : i])
+                        expressao = expressao[i ::]
+                        break    
 
-        elif (expressao[0] in operadores):
+        elif (expressao[0] in operadoresBinarios):
             tokens.append(expressao[0])
             expressao = expressao[1 ::]
 
         else:
             acabou = True
             for i in range(0, len(expressao)):
-                if (expressao[i] in operadores):
+                if (expressao[i] in operadoresBinarios):
                     tokens.append(expressao[0 : i])
                     expressao = expressao[i ::]
                     acabou = False
@@ -39,6 +47,8 @@ def tokenizar(expressao):
             if (acabou):
                 tokens.append(expressao[0 ::])
                 break
+
+        pos = pos + 1
 
     return tokens
 
