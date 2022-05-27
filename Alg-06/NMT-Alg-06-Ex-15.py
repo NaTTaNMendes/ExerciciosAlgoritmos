@@ -18,10 +18,11 @@ def tokenizar(expressao):
         if (expressao[0] in operadoresUnarios):
             if (len(tokens) == 0):
                 for i in range(1, len(expressao)):
-                    if (expressao[i] in operadoresBinarios) or (expressao[i] == "(") or (expressao[i] == ")"):
+                    if (expressao[i] in operadoresBinarios):
                         tokens.append(expressao[0 : i])
-                        expressao = expressao[i ::]
-                        break 
+                        expressao = expressao[i :: ]
+                        break
+                break 
             elif (("-" in tokens[pos - 1]) and (len(tokens[pos - 1]) == 1)) or (("+" in tokens[pos - 1]) and (len(tokens[pos - 1]) == 1)) or (")" in tokens[pos - 1]):
                 tokens.append(expressao[0])
                 expressao = expressao[1 ::]
