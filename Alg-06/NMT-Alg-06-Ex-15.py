@@ -1,41 +1,35 @@
-def tokenizar(expressao):
-    """
-    Divide os elementos da expressão em tokens e retorna uma lista com todos eles (A função não consegue detectar números negativos).
+def tokenise(string):
+    string = string.replace(" ", "")
+    numero = ''
+    token = []
+    for index,char in enumerate(string):
 
+        if char in ['/','*','^','(',')','=']:
+            if numero != '':
+                token.append(int(numero))
+            numero = ''
+            token.append(char)
 
-    expressao = string
-    """
-    tokens = []
-    expressao = expressao.replace(" ", "")
-    operadoresBinarios = ["+", "-", "*", "/", "^", ")", "("]
-    operadoresUnarios = ["+", "-"]
-    pos = 0
+        elif char in ['-','+']:
+            if string[index-1] in '0987654321)' and index != 0:
+                if numero != '':
+                    token.append(int(numero))
+                numero = ''
+                token.append(char)
+            else:
+                numero += char
 
-    """PRECISO CORRIGIR O ERRO DOS OPERADORES UNARIO NA OPERACAO AQUI REALIZADA"""
-    while True:
-        if (expressao[0] in operadoresBinarios): 
-            tokens.append(expressao[0])
-            expressao = expressao[1 ::]
+        elif char in '0987654321':
+            numero += char
+            if index + 1 == len(string):
+                if numero != '':
+                    token.append(int(numero))
 
-        else:
-            acabou = True
-            for i in range(0, len(expressao)):
-                if (expressao[i] in operadoresBinarios):
-                    tokens.append(expressao[0 : i])
-                    expressao = expressao[i ::]
-                    acabou = False
-                    break
-            if (acabou):
-                tokens.append(expressao[0 ::])
-                break
-
-        pos = pos + 1
-
-    return tokens
+    return token
 
 def main():
     expressao = input("Informe uma expressão matemática: ")
-    tokens = tokenizar(expressao)
+    tokens = tokenise(expressao)
     print("Tokens na expressão:", tokens)
 
 if __name__=="__main__":

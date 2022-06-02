@@ -94,21 +94,34 @@ def infixToPosFix(tokens):
     
     return postFix
 
+def doOperationPostFix(tokens):
+    valores = []
+
+    for token in tokens:
+        token = str(token)
+        if isInteger(token):
+            valores.append(int(token))
+        else:
+            direita = valores.pop()
+            esquerda = valores.pop()
+            if (token == "/"):
+                valores.append(esquerda / direita)
+            elif (token == "+"):
+                valores.append(esquerda + direita)
+            elif (token == "-"):
+                valores.append(esquerda - direita)
+            elif (token == "*"):
+                valores.append(esquerda * direita)
+            elif (token == "^"):
+                valores.append(esquerda ** direita)
+    
+    return valores[0]
+
 def main():
     expressao = input("Informe uma expressão matemática: ")
-    tokens = tokenise(expressao)
-    posFixa = infixToPosFix(tokens)
-    saida = ""
-    for elemento in tokens:
-        saida = saida + str(elemento) + " "
-    print("Infixa: " + saida)
-    saida = ""
-    for elemento in posFixa:
-        saida = saida + str(elemento) + " "
-    print("Pos Fixa: " + saida)        
-
-if __name__ == "__main__":
+    posFixa = infixToPosFix(tokenise(expressao))
+    resultado = doOperationPostFix(posFixa)
+    print("Resultado da expressão:",  resultado)
+    
+if __name__=="__main__":
     main()
-
-
-
