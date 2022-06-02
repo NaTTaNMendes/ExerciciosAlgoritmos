@@ -32,5 +32,6 @@ def main():
     tokens = tokenise(expressao)
     print("Tokens na expressão:", tokens)
 
-if __name__=="__main__":
+
+if __name__ == "__main__":
     main()
